@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -179,6 +180,23 @@ class TodoListBackendApplicationTests {
 				.andExpect(status().isNoContent());
 
 		mockMvc.perform(get("/todos/" + savedTodo.getId()))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void should_return_no_content_when_delete_todo_given_todo_exists_with_id_123() throws Exception {
+		Todo todo = new Todo("Test todo", false);
+		Todo savedTodo = todoRepository.save(todo);
+
+		mockMvc.perform(delete("/todos/" + savedTodo.getId()))
+				.andExpect(status().isNoContent());
+
+		assertFalse(todoRepository.existsById(savedTodo.getId()));
+	}
+
+	@Test
+	void should_return_404_when_delete_todo_given_no_todo_exists_with_id_999() throws Exception {
+		mockMvc.perform(delete("/todos/999"))
 				.andExpect(status().isNotFound());
 	}
 }

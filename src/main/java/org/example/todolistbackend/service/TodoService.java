@@ -35,7 +35,11 @@ public class TodoService {
                 .orElse(null);
     }
     
-    public void deleteTodo(Long id) {
-        todoRepository.deleteById(id);
+    public boolean deleteTodo(Long id) {
+        if (todoRepository.existsById(id)) {
+            todoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
