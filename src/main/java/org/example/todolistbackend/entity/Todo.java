@@ -1,6 +1,8 @@
 package org.example.todolistbackend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "todos")
@@ -10,6 +12,7 @@ public class Todo {
     private Long id;
     
     @Column(nullable = false)
+    @NotBlank(message = "Text is required and cannot be empty")
     private String text;
     
     @Column(nullable = false)

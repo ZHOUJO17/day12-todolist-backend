@@ -1,5 +1,4 @@
 package org.example.todolistbackend;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.todolistbackend.entity.Todo;
 import org.example.todolistbackend.repository.TodoRepository;
@@ -41,8 +40,7 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testGetAllTodos_WhenNoTodosExist_ShouldReturnEmptyArray() throws Exception {
-		// AC 1: List all todos when none exist
+	void should_return_empty_array_when_get_all_todos_given_no_todos_exist() throws Exception {
 		mockMvc.perform(get("/todos"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -50,16 +48,10 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testGetAllTodos_WhenOneTodoExists_ShouldReturnTodoArray() throws Exception {
-		// AC 1: List one todo when only one exists
-		// Given: the storage contains the following todos
+	void should_return_todo_array_when_get_all_todos_given_one_todo_exists() throws Exception {
 		Todo todo = new Todo("Buy milk", false);
 		todoRepository.save(todo);
 
-		// When: a client GETs /todos
-		// Then: respond 200 OK
-		// And: the response body is a JSON array with 1 items
-		// And: the array contains objects equivalent to those todos (id, text, done)
 		mockMvc.perform(get("/todos"))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -70,7 +62,7 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testCreateTodo() throws Exception {
+	void should_return_todo_when_create_given_valid_params() throws Exception {
 		Todo newTodo = new Todo("Test todo", false);
 
 		mockMvc.perform(post("/todos")
@@ -84,7 +76,7 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testGetTodoById() throws Exception {
+	void should_return_todo_when_get_todo_by_id_given_valid_id() throws Exception {
 		Todo todo = new Todo("Test todo", false);
 		Todo savedTodo = todoRepository.save(todo);
 
@@ -97,7 +89,7 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testUpdateTodo() throws Exception {
+	void should_return_updated_todo_when_put_update_todo_given_valid_data() throws Exception {
 		Todo todo = new Todo("Original text", false);
 		Todo savedTodo = todoRepository.save(todo);
 
@@ -114,14 +106,13 @@ class TodoListBackendApplicationTests {
 	}
 
 	@Test
-	void testDeleteTodo() throws Exception {
+	void should_return_no_content_when_delete_todo_given_valid_id() throws Exception {
 		Todo todo = new Todo("Test todo", false);
 		Todo savedTodo = todoRepository.save(todo);
 
 		mockMvc.perform(delete("/todos/" + savedTodo.getId()))
 				.andExpect(status().isNoContent());
 
-		// Verify the todo is deleted
 		mockMvc.perform(get("/todos/" + savedTodo.getId()))
 				.andExpect(status().isNotFound());
 	}
