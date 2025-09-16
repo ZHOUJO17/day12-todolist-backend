@@ -29,6 +29,7 @@ public class TodoService {
         return todoRepository.findById(id)
                 .map(todo -> {
                     todo.setText(todoDetails.getText());
+                    todo.setBody(todoDetails.getBody());
                     todo.setDone(todoDetails.getDone());
                     return todoRepository.save(todo);
                 })

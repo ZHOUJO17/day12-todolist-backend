@@ -14,6 +14,9 @@ public class Todo {
     @Column(nullable = false)
     private String text;
     
+    @Column(columnDefinition = "TEXT")
+    private String body;
+    
     @Column(nullable = false)
     private Boolean done = false;
     
@@ -21,6 +24,12 @@ public class Todo {
     
     public Todo(String text, Boolean done) {
         this.text = text;
+        this.done = done;
+    }
+    
+    public Todo(String text, String body, Boolean done) {
+        this.text = text;
+        this.body = body;
         this.done = done;
     }
     
@@ -39,6 +48,14 @@ public class Todo {
     
     public void setText(String text) {
         this.text = text;
+    }
+    
+    public String getBody() {
+        return body;
+    }
+    
+    public void setBody(String body) {
+        this.body = body;
     }
     
     public Boolean getDone() {
