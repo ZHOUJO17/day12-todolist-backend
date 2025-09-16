@@ -1,5 +1,7 @@
 package org.example.todolistbackend.controller;
 
+import org.example.todolistbackend.dto.CreateTodoRequest;
+import org.example.todolistbackend.dto.UpdateTodoRequest;
 import org.example.todolistbackend.entity.Todo;
 import org.example.todolistbackend.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +29,9 @@ public class TodoController {
     }
     
     @PostMapping
-    public ResponseEntity<Todo> createTodo(@Valid @RequestBody Todo todo) {
-        todo.setId(null);
+    public ResponseEntity<Todo> createTodo(@Valid @RequestBody CreateTodoRequest request) {
+        Todo todo = new Todo();
+        todo.setText(request.getText());
         todo.setDone(false);
         
         Todo createdTodo = todoService.createTodo(todo);
@@ -45,7 +48,11 @@ public class TodoController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todoDetails) {
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @Valid @RequestBody UpdateTodoRequest request) {
+        Todo todoDetails = new Todo();
+        todoDetails.setText(request.getText());
+        todoDetails.setDone(request.getDone());
+        
         Todo updatedTodo = todoService.updateTodo(id, todoDetails);
         if (updatedTodo != null) {
             return ResponseEntity.ok(updatedTodo);

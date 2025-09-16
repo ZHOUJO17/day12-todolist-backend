@@ -12,7 +12,6 @@ public class Todo {
     private Long id;
     
     @Column(nullable = false)
-    @NotBlank(message = "Text is required and cannot be empty")
     private String text;
     
     @Column(nullable = false)
