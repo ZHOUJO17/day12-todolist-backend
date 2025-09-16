@@ -1,1 +1,0 @@
-alter table todos add column body varchar(255)
