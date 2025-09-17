@@ -1,10 +1,10 @@
-name: Main Branch CI/CD to Dev
+name: master Branch CI/CD to Dev
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 permissions:
   contents: read
@@ -52,7 +52,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     environment: dev
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Checkout code
